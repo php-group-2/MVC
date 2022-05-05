@@ -1,0 +1,10 @@
+{
+    "name": "group2/mvc",
+    "description": "PHP MVC for maktab 70 group 2",
+    "autoload": {
+        "psr-4": {
+            "App\\": "./"
+        }
+    },
+    "require": {}
+}
