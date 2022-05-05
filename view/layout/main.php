@@ -30,7 +30,10 @@
         </div>
     </nav>
 
-    {{content}}
+    <div class="mt-3 container">
+        {{content}}
+
+    </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 

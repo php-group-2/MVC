@@ -31,10 +31,10 @@ class Router
         $func = $this->routes[$method][$path] ?? false;
         if ($func === false) {
             $this->response->setStatusCode(404);
-            return "404: NOT FOUND!";
+            return $this->renderView("_404");
         }
         if (is_string($func)) {
-            $this->renderView($func);
+            return $this->renderView($func);
         }
 
         return $func();
@@ -43,6 +43,22 @@ class Router
 
     public function renderView($view)
     {
+        $layout = $this->renderLayout();
+        $content = $this->renderContent($view);
+        return str_replace("{{content}}", $content, $layout);
+    }
+
+    public function renderLayout()
+    {
+        ob_start();
+        include_once Application::$ROOT . "/view/layout/main.php";
+        return ob_get_clean();
+    }
+
+    public function renderContent($view)
+    {
+        ob_start();
         include_once Application::$ROOT . "/view/$view.php";
+        return ob_get_clean();
     }
 }
