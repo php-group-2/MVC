@@ -33,7 +33,16 @@ class Router
             $this->response->setStatusCode(404);
             return "404: NOT FOUND!";
         }
+        if (is_string($func)) {
+            $this->renderView($func);
+        }
+
         return $func();
         // return call_user_func($callback);
+    }
+
+    public function renderView($view)
+    {
+        include_once Application::$ROOT . "/view/$view.php";
     }
 }
