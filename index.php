@@ -3,7 +3,6 @@
 include_once __DIR__ . "/vendor/autoload.php";
 
 use App\core\Application;
-use App\core\Router;
 
 $app = new Application;
 
