@@ -9,7 +9,7 @@ use App\core\Request;
 $app = new Application(dirname(__DIR__));
 
 $app->get("/", [SiteController::class, "home"]);
-$app->get("/todo", [SiteController::class, "contact"]);
+$app->get("/todo", [SiteController::class, "adding"]);
 $app->post("/todo", [SiteController::class, "addTodo"]);
 
 $app->get("/about", function (Request $request) {

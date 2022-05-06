@@ -8,33 +8,31 @@ use App\model\Todo;
 
 class SiteController
 {
-    private array $todo = [];
+    public Todo $todo ;
 
     public function __construct()
     {
-        $this->todo = Todo::getTodo() ?? [];
+        $this->todo = new Todo ;
+        
     }
 
     public function home()
     {
-        return (new View)->renderView("home", ["todo" => $this->todo]);
+        return (new View)->renderView("home", ["todo" => $this->todo->getTodo()]);
     }
 
     public function addTodo(Request $request)
     {
         $task = $request->getBody()['todo'];
-        Todo::addTodo($task);
-        $this->todo = Todo::getTodo();
-        return (new View)->renderView("home", ["todo" => $this->todo]);
+        // Todo::addTodo($task);
+        
+        return (new View)->renderView("home", ["todo" => $this->todo->getTodo()]);
     }
 
-    public function contact()
+    public function adding()
     {
-        $todo = Todo::getTodo();
-        return (new View)->renderView("contact");
+    
+        return (new View)->renderView("Add");
     }
 
-    public function getData()
-    {
-    }
 }

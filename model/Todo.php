@@ -2,27 +2,36 @@
 
 namespace App\model;
 
+use PDO;
+
 class Todo
 {
-    public static function getTodo()
+    public $servername = "localhost";
+    public $username = "root";
+    public $password = "";
+    public PDO $conn ;
+    public function __construct()
     {
-        if (!file_exists('todo.json'))
-            file_put_contents('todo.json', "");
-
-        $file = file_get_contents('todo.json');
-        $todo = json_decode($file, true);
-
-        return $todo;
+        $this->conn = new PDO("mysql:host={$this->servername};dbname=todo", $this->username, $this->password);
     }
-
-    public static function addTodo($task)
+    public  function getAllTodo()
     {
-        $todo = self::getTodo();
-        $todo[] = [
-            "task" => $task,
-            "done" => false,
-        ];
-        $json = json_encode($todo, JSON_PRETTY_PRINT);
-        file_put_contents('todo.json', $json);
+       $query = "select * from todos " ;
+       $stat = $this->conn->query($query) ;
+       return $stat->fetchAll(PDO::FETCH_ASSOC) ;
+    }
+    public  function getOneTodo($id)
+    {
+       $query = "select * from todos WHERE id = ?" ;
+       $->prepare(, $id);
+        $stmt->execute();
+       $stat = $this->conn->query($query) ;
+       return $stat->fetchAll(PDO::FETCH_ASSOC) ;
+    }
+    
+    
+    public  function addTodo($task)
+    {
+       
     }
 }

@@ -3,7 +3,7 @@
     <?php foreach ($todo as $key => $value) { ?>
         <li>
             <?php
-            $status = $value['done'] ? " done" : " not done";
+            $status = $value['status'] ? " done" : " not done";
             echo $value['task'] . $status;
             ?>
         </li>
