@@ -8,15 +8,23 @@ class Application
     public Router $router;
     public Request $request;
     public Response $response;
-    // public static Application $app;
 
     public function __construct($root_path)
     {
-        // self::$app = $this;
         self::$ROOT = $root_path;
         $this->request = new Request;
         $this->response = new Response;
         $this->router = new Router($this->request, $this->response);
+    }
+
+    public function get($path, $callback)
+    {
+        $this->router->get($path, $callback);
+    }
+
+    public function post($path, $callback)
+    {
+        $this->router->post($path, $callback);
     }
 
     public function run()

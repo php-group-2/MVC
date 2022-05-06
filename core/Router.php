@@ -28,37 +28,24 @@ class Router
     {
         $path = $this->request->getPath();
         $method = $this->request->getMethod();
-        $func = $this->routes[$method][$path] ?? false;
-        if ($func === false) {
+        $callback = $this->routes[$method][$path];
+
+        // Route not found
+        if (is_null($callback)) {
             $this->response->setStatusCode(404);
-            return $this->renderView("_404");
-        }
-        if (is_string($func)) {
-            return $this->renderView($func);
+            return (new View)->renderView("_404");
         }
 
-        return $func();
-        // return call_user_func($callback);
-    }
+        // View
+        if (is_string($callback)) {
+            return (new View)->renderView($callback);
+        }
 
-    public function renderView($view)
-    {
-        $layout = $this->renderLayout();
-        $content = $this->renderContent($view);
-        return str_replace("{{content}}", $content, $layout);
-    }
+        if (is_array($callback)) {
+            $callback[0] = new $callback[0];
+        }
 
-    public function renderLayout()
-    {
-        ob_start();
-        include_once Application::$ROOT . "/view/layout/main.php";
-        return ob_get_clean();
-    }
-
-    public function renderContent($view)
-    {
-        ob_start();
-        include_once Application::$ROOT . "/view/$view.php";
-        return ob_get_clean();
+        // function or method
+        return call_user_func($callback, $this->request);
     }
 }

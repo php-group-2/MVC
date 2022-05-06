@@ -2,15 +2,20 @@
 
 include_once __DIR__ . "/../vendor/autoload.php";
 
+use App\controllers\SiteController;
 use App\core\Application;
+use App\core\Request;
 
 $app = new Application(dirname(__DIR__));
 
-$app->router->get("/", "home");
-$app->router->get("/about", function () {
+$app->get("/", [SiteController::class, "home"]);
+$app->get("/todo", [SiteController::class, "contact"]);
+$app->post("/todo", [SiteController::class, "addTodo"]);
+
+$app->get("/about", function (Request $request) {
+    $data = $request->getBody();
+    var_dump($data);
     return "About Us!";
 });
-$app->router->get("/contact", "contact");
-// $app->router->post("/contact", "handleContact");
 
 $app->run();
