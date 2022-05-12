@@ -5,3 +5,6 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<?php if (isset($newTodo)) : ?>
+    <p>new todo added:<?php echo $newTodo ?></p>
+<?php endif; ?>

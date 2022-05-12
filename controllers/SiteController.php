@@ -15,7 +15,11 @@ class SiteController
 
     public function addTodo(Request $request)
     {
-        return (new View)->renderView("home", ["todo" => []]);
+        $todo = $request->get('todo');
+        return (new View)->renderView("Add", [
+            "todo" => [],
+            "newTodo" => $todo
+        ]);
     }
 
     public function adding()
