@@ -21,14 +21,14 @@
 </ul>
 
 <script>
-    $(document).ready(function() {
-        $(".checkbox").change(function() {
-            id = $(this).val();
-            status = $(this).is(":checked");
-            $.post("/", {
-                id,
-                status
-            });
-        })
-    });
+    // $(document).ready(function() {
+    //     $(".checkbox").change(function() {
+    //         id = $(this).val();
+    //         status = $(this).is(":checked");
+    //         $.post("/", {
+    //             id,
+    //             status
+    //         });
+    //     })
+    // });
 </script>
