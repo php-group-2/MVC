@@ -12,5 +12,4 @@ $app->post("/", [SiteController::class, "toggleTodo"]);
 $app->get("/todo", [SiteController::class, "adding"]);
 $app->post("/todo", [SiteController::class, "addTodo"]);
 
-
 $app->run();

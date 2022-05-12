@@ -10,16 +10,12 @@ class SiteController
 
     public function home(Request $request)
     {
-        $id = $request->getBody()['id'];
-
-        return (new View)->renderView("home", ["todo" => ""]);
+        return (new View)->renderView("home", ["todo" => []]);
     }
 
     public function addTodo(Request $request)
     {
-        $task = $request->getBody()['todo'];
-
-        return (new View)->renderView("home", ["todo" => ""]);
+        return (new View)->renderView("home", ["todo" => []]);
     }
 
     public function adding()
