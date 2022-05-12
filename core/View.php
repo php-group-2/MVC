@@ -4,7 +4,7 @@ namespace App\core;
 
 class View
 {
-    public function renderView($view, array $params = [])
+    public function renderView(string $view, array $params = [])
     {
         $layout = $this->renderLayout();
         $content = $this->renderContent($view, $params);
@@ -23,8 +23,9 @@ class View
 
     public function renderLayout()
     {
+        $layout = Application::$app->controller->layout ?? "main";
         ob_start();
-        include_once Application::$ROOT . "/view/layout/main.php";
+        include_once Application::$ROOT . "/view/layout/$layout.php";
         return ob_get_clean();
     }
 }

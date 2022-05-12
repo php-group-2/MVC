@@ -2,21 +2,29 @@
 
 namespace App\controllers;
 
+use App\core\Application;
+use App\core\Controller;
 use App\core\Request;
+use App\core\Response;
 use App\core\View;
 
-class SiteController
+class SiteController extends Controller
 {
+    public function __construct()
+    {
+        $this->setLayout('main');
+    }
 
     public function home(Request $request)
     {
-        return (new View)->renderView("home", ["todo" => []]);
+        return $this->render("home", ["todo" => []]);
     }
 
-    public function addTodo(Request $request)
+    public function addTodo(Request $request, Response $response)
     {
         $todo = $request->get('todo');
-        return (new View)->renderView("Add", [
+        $response->setStatusCode(201);
+        return $this->render("Add", [
             "todo" => [],
             "newTodo" => $todo
         ]);
@@ -24,6 +32,7 @@ class SiteController
 
     public function adding()
     {
-        return (new View)->renderView("Add");
+        $this->setLayout('main2');
+        return $this->render("Add");
     }
 }
