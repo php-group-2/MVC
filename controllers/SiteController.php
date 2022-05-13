@@ -21,8 +21,11 @@ class SiteController extends Controller
     {
         $data = $request->getBody();
         $id = $data['id'];
-        $result = Task::do()->delete($id);
-        $response->redirect('/');
+        $type = $data['type'];
+        if ($type === "delete") {
+            Task::do()->delete($id);
+            $response->redirect('/');
+        }
     }
 
     public function home(Request $request)

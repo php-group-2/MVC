@@ -22,7 +22,7 @@
             <div class="form-check">
                 <input class="form-check-input checkbox" <?php if ($task->status) echo "checked" ?> type="checkbox" task="<?php echo $task->id ?>" id="check_<?php echo $task->id ?>">
                 <form action="/delete" method="post" class="d-inline-block">
-
+                    <input name="type" value="delete" hidden>
                     <button type="submit" class="d-inline-block" name="id" value="<?php echo $task->id; ?>"><i class="bi bi-trash"></i></button>
                 </form>
                 <label class="form-check-label">

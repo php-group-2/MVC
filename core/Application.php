@@ -36,7 +36,8 @@ class Application
 
     public function delete($path, $callback)
     {
-        $this->router->delete($path, $callback);
+        // TODO : DELETE ROUTES
+        $this->router->post($path, $callback);
     }
 
     public function show($view, $params = [])

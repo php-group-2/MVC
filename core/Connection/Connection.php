@@ -11,7 +11,7 @@ class Connection implements ConnectionInterface
   private $host = "localhost";
   private $name = "MVC";
   private $user = "root";
-  private $pass = "";
+  private $pass = "4845647";
 
   private PDO $conn;
 
