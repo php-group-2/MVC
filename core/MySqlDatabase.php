@@ -83,15 +83,23 @@ class MySqlDatabase implements DatabaseInterface
         return $this;
     }
 
-    public function where(string $val1, string $val2, string $operation = '='): DatabaseInterface
+    public function delete(): DatabaseInterface
     {
-        $this->where[] = [
-            $val1, $val2, $operation
-        ];
+        $this->query = "DELETE FROM " . $this->table;
+        return $this;
+    }
+
+    public function where(string $val1, string $val2, string $operation = '=', $condition = "AND"): DatabaseInterface
+    {
+        if (str_contains($this->query, "WHERE")) {
+            $this->query .= " $condition ";
+        } else {
+            $this->query .= " WHERE ";
+        }
 
         // NOTE: WE CAN ADD OR WHERE 
         // NOTE: WE CAN ADD AND WHERE
-        $this->query .= " WHERE $val1 $operation '$val2'";
+        $this->query .= "$val1 $operation '$val2'";
         return $this;
     }
 

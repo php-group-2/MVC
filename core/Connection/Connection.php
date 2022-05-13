@@ -8,7 +8,7 @@ class Connection implements ConnectionInterface
 {
   private static $instance = null;
   private $host = "localhost";
-  private $name = "Company";
+  private $name = "MVC";
   private $user = "root";
   private $pass = "4845647";
 

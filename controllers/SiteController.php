@@ -7,6 +7,8 @@ use App\core\Controller;
 use App\core\Request;
 use App\core\Response;
 use App\core\View;
+use App\models\Task;
+use App\models\User;
 
 class SiteController extends Controller
 {
@@ -17,22 +19,35 @@ class SiteController extends Controller
 
     public function home(Request $request)
     {
-        return $this->render("home", ["todo" => []]);
+        $result = Task::do()->all();
+        return $this->render("home", ["tasks" => $result]);
     }
 
-    public function addTodo(Request $request, Response $response)
+    public function add(Request $request, Response $response)
     {
-        $todo = $request->get('todo');
-        $response->setStatusCode(201);
-        return $this->render("Add", [
-            "todo" => [],
-            "newTodo" => $todo
-        ]);
-    }
 
-    public function adding()
-    {
+        $data = $request->getBody();
+        // var_dump($data);
+        if ($request->isPost()) {
+            $newData = [
+                "title" => $data['title'],
+                "description" => $data['desc'],
+                "color" => $data['color'] ?? null,
+                "deadline" => $data['dline'] ? $data['dline'] : null,
+            ];
+
+            $result = Task::do()->create($newData);
+            if ($result) {
+                $response->redirect("/");
+            }
+
+            return $this->render("Add", [
+                'error' => "Error addding task",
+            ]);
+        }
+
         $this->setLayout('main2');
+
         return $this->render("Add");
     }
 }

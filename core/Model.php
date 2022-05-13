@@ -5,17 +5,25 @@ namespace App\core;
 abstract class Model
 {
     protected $table; // which table this model should work on
-    public MySqlDatabase $query;
-    public MySqlDatabase $where = [];
+    private DatabaseInterface $db;
+    private DatabaseInterface $query;
 
     public function __construct()
     {
-        $this->query = MySqlDatabase::do()->table($this->table);
+        $this->db = MySqlDatabase::do();
+        $this->query = $this->db->table($this->getTable());
+    }
+
+    abstract public function getTable(): string;
+
+    public static function do()
+    {
+        return new static;
     }
 
     public function all() // return all records
     {
-        return $this->query->select()->fetchAll();
+        return $this->db->table($this->getTable())->select()->fetchAll();
     }
     public function find(string $value, string $col = 'id') // return the record
     {
@@ -27,17 +35,19 @@ abstract class Model
     }
     public function delete($id)
     {
+        return $this->query->delete()->where('id', $id);
     }
-    public function where($oprand1, $oprand2, $operation = '='): self
+    public function where($va1, $val2, $operation = '=', $condition = "AND"): self
     {
-        $this->where[] = $this->query->select()->where($oprand1, $oprand2, $operation);
+        $this->query->select()->where($va1, $val2, $operation, $operation);
         return $this;
     }
     public function get() // return all the filtered  records by where method
     {
-        return $this->DB->fetchAll();
+        return $this->query->fetchAll();
     }
     public function update(array $data)
     {
+        return $this->query->update($data)->exec();
     }
 }

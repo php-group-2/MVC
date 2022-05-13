@@ -6,5 +6,7 @@
             "App\\": "./"
         }
     },
-    "require": {}
+    "require": {
+        "propel/propel": "~2.0@dev"
+    }
 }

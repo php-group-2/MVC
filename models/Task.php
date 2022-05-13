@@ -4,10 +4,10 @@ namespace App\models;
 
 use App\core\Model;
 
-class User extends Model
+final class Task extends Model
 {
     public function getTable(): string
     {
-        return "users";
+        return "tasks";
     }
 }

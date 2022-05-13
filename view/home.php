@@ -2,33 +2,33 @@
     ul {
         list-style-type: none;
     }
+
+    .red {
+        color: red;
+    }
+
+    .blue {
+        color: blue;
+    }
+
+    .purple {
+        color: purple;
+    }
 </style>
-<h1>alow</h1>
-<h2>Todo List:</h2>
+<h2>Tasks List:</h2>
 <ul>
-    <?php foreach ($todo as $key => $value) { ?>
+    <?php foreach ((array) $tasks as $task) { ?>
         <li>
             <div class="form-check">
-                <input class="form-check-input checkbox" <?php if ($value['status']) echo "checked" ?> type="checkbox" value="<?php echo $value['id'] ?>" id="check_<?php echo $value['id'] ?>">
-                <label class="form-check-label" for="flexCheckDefault">
-                    <a href="/?<?php echo "id={$value['id']}" ?>">
-                        <?php echo $value['task'] ?>
-                    </a>
+                <input class="form-check-input checkbox" <?php if ($task->status) echo "checked" ?> type="checkbox" task="<?php echo $task->id ?>" id="check_<?php echo $task->id ?>">
+                <label class="form-check-label">
+                    <span class="<?php echo $task->color ?>">
+                        <?php echo $task->title ?> -
+                        <?php echo $task->description ?>
+                    </span>
+                    <?php echo $task->deadline ?>
                 </label>
             </div>
         </li>
     <?php } ?>
 </ul>
-
-<script>
-    // $(document).ready(function() {
-    //     $(".checkbox").change(function() {
-    //         id = $(this).val();
-    //         status = $(this).is(":checked");
-    //         $.post("/", {
-    //             id,
-    //             status
-    //         });
-    //     })
-    // });
-</script>
