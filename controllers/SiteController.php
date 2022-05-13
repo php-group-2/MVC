@@ -17,6 +17,14 @@ class SiteController extends Controller
         $this->setLayout('main');
     }
 
+    public function delete(Request $request, Response $response)
+    {
+        $data = $request->getBody();
+        $id = $data['id'];
+        $result = Task::do()->delete($id);
+        $response->redirect('/');
+    }
+
     public function home(Request $request)
     {
         $result = Task::do()->all();

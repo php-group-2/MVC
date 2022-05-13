@@ -34,6 +34,11 @@ class Application
         $this->router->post($path, $callback);
     }
 
+    public function delete($path, $callback)
+    {
+        $this->router->delete($path, $callback);
+    }
+
     public function show($view, $params = [])
     {
         return $this->view->renderView($view, $params);

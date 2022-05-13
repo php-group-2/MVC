@@ -35,7 +35,7 @@ abstract class Model
     }
     public function delete($id)
     {
-        return $this->query->delete()->where('id', $id);
+        return $this->query->delete()->where('id', $id)->exec();
     }
     public function where($va1, $val2, $operation = '=', $condition = "AND"): self
     {
