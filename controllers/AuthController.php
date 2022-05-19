@@ -7,6 +7,7 @@ use App\core\Request;
 use App\core\Response;
 use App\core\Validation;
 use App\models\Task;
+use App\models\User;
 
 class AuthController extends Controller
 {
@@ -26,13 +27,15 @@ class AuthController extends Controller
                 ->setData($data)
                 ->validate();
 
-            dd($errors);
+            // dd($errors);
             if (empty($errors)) {
                 // $email = $data['email'];
                 // $password = $data['password'];
                 // $name = $data['name'];
                 // $phone = $data['phone'];
                 // TODO INSERT
+                // User::do()->insert()
+                $response->redirect('/');
             }
         }
         return $this->render('register', ['errors' => $errors]);
@@ -48,9 +51,17 @@ class AuthController extends Controller
     {
         return [
             'email' => ['required', 'email', 'unique'],
-            'password' => ['required', ['min' => '4']],
+            'password' => ['required', ['min', 4]],
             'name' => "alphabet|min:5",
             'phone' => "numeric|min:5|max:11|phone",
+        ];
+    }
+
+    public function loginRules()
+    {
+        return [
+            'email' => ['required', 'email', 'unique'],
+            'password' => ['required', ['min' => 4]],
         ];
     }
 }

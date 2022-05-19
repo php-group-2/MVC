@@ -1,7 +1,10 @@
 <form class="row g-3" method="POST">
     <div class="col-md-6">
         <label for="inputEmail4" class="form-label">Email</label>
-        <input name="email" type="text" class="form-control" id="inputEmail4">
+        <input name="email" type="text" class="form-control<?php if (isset($errors['email'][0])) echo " is-invalid" ?>" id="inputEmail4">
+        <div class="invalid-feedback">
+            <?php echo $errors['email'][0] ?? "" ?>
+        </div>
     </div>
     <div class="col-md-6">
         <label for="inputPassword4" class="form-label">Password</label>

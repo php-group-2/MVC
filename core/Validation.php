@@ -42,7 +42,7 @@ class Validation
                 foreach ($conditions as $condition) {
                     if (is_string($condition) && method_exists($this, $condition)) {
                         $result = call_user_func([$this, $condition], $input);
-
+                        
                         if (!is_null($result)) {
                             $errors[$attr][] = $result;
                         }
@@ -64,7 +64,7 @@ class Validation
     public function email(string $input)
     {
         if (!filter_var($input, FILTER_VALIDATE_EMAIL))
-            return 'It\'t not valid email';
+            return 'It\'s not valid email';
 
         return null;
     }
