@@ -39,7 +39,7 @@ abstract class Model
     }
     public function where($va1, $val2, $operation = '=', $condition = "AND"): self
     {
-        $this->query->select()->where($va1, $val2, $operation, $operation);
+        $this->query->where($va1, $val2, $operation, $operation);
         return $this;
     }
     public function get() // return all the filtered  records by where method
@@ -48,6 +48,11 @@ abstract class Model
     }
     public function update(array $data)
     {
-        return $this->query->update($data)->exec();
+        $this->query->update($data);
+        return $this;
+    }
+    public function exec()
+    {
+        return $this->query->exec();
     }
 }

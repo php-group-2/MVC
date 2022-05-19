@@ -15,24 +15,25 @@
         color: purple;
     }
 </style>
+
 <h2>Tasks List:</h2>
-<ul>
-    <?php foreach ((array) $tasks as $task) { ?>
-        <li>
-            <div class="form-check">
-                <input class="form-check-input checkbox" <?php if ($task->status) echo "checked" ?> type="checkbox" task="<?php echo $task->id ?>" id="check_<?php echo $task->id ?>">
-                <form action="/delete" method="post" class="d-inline-block">
-                    <input name="type" value="delete" hidden>
-                    <button type="submit" class="d-inline-block" name="id" value="<?php echo $task->id; ?>"><i class="bi bi-trash"></i></button>
-                </form>
-                <label class="form-check-label">
-                    <span class="<?php echo $task->color ?>">
-                        <?php echo $task->title ?> -
-                        <?php echo $task->description ?>
-                    </span>
-                    <?php echo $task->deadline ?>
-                </label>
-            </div>
-        </li>
-    <?php } ?>
+<ul class="list-group">
+    <?php foreach ((array) $tasks as $task) {
+        include __DIR__ . "/components/todo_item.php";
+        include __DIR__ . "/components/edit_todo_modal.php";
+    } ?>
 </ul>
+
+<script>
+    $(function() {
+        $(".checkbox").on("change", function() {
+            id = $(this).val();
+            $.post("/toggle", {
+                _method: "PUT",
+                id
+            }, function(e) {
+                console.log(e);
+            });
+        })
+    })
+</script>

@@ -7,7 +7,7 @@ class Request
 
     public function getMethod()
     {
-        return strtolower($_SERVER['REQUEST_METHOD']);
+        return strtolower($_POST['_method'] ?? $_SERVER['REQUEST_METHOD']);
     }
 
     public function getPath()
@@ -34,6 +34,16 @@ class Request
         return $this->getMethod() === "get";
     }
 
+    public function isDelete()
+    {
+        return $this->getMethod() === "delete";
+    }
+
+    public function isPut()
+    {
+        return $this->getMethod() === "put";
+    }
+
     public function getBody()
     {
         // Lazy Solution
@@ -46,11 +56,9 @@ class Request
                 $data[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             }
         }
-        // \htmlspecialchars()
-        if ($this->getMethod() === "post") {
-            foreach ($_POST as $key => $value) {
-                $data[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            }
+
+        foreach ($_POST as $key => $value) {
+            $data[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         }
 
         return $data;

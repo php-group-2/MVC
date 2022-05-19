@@ -21,24 +21,46 @@ class SiteController extends Controller
     {
         $data = $request->getBody();
         $id = $data['id'];
-        $type = $data['type'];
-        if ($type === "delete") {
-            Task::do()->delete($id);
-            $response->redirect('/');
-        }
+        Task::do()->delete($id);
+        $response->redirect('/');
     }
 
-    public function home(Request $request)
+    public function put(Request $request, Response $response)
+    {
+        $data = $request->getBody();
+        // dd($data);
+        $id = $data['id'];
+        $updatedData = [
+            "title" => $data['title'],
+            "description" => $data['desc'],
+            "color" => $data['color'] ?? null,
+            "deadline" => $data['dline'] ? $data['dline'] : null,
+        ];
+
+        Task::do()->update($updatedData)->where('id', $id)->exec();
+        $response->redirect('/');
+    }
+
+    public function home()
     {
         $result = Task::do()->all();
         return $this->render("home", ["tasks" => $result]);
+    }
+
+    public function toggleStatus(Request $request)
+    {
+        $id = $request->getBody()['id'];
+        $data = Task::do()->find($id);
+        $status = 0;
+        if ($data) $status = $data->status;
+        $status = $status ? 0 : 1;
+        return Task::do()->update(['status' => $status])->where('id', $id)->exec();
     }
 
     public function add(Request $request, Response $response)
     {
 
         $data = $request->getBody();
-        // var_dump($data);
         if ($request->isPost()) {
             $newData = [
                 "title" => $data['title'],

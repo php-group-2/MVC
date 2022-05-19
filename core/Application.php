@@ -15,6 +15,8 @@ class Application
 
     public function __construct($root_path)
     {
+        include_once __DIR__ . "/helpers/helper.php";
+
         self::$ROOT = $root_path;
         self::$app = $this;
 
@@ -36,8 +38,12 @@ class Application
 
     public function delete($path, $callback)
     {
-        // TODO : DELETE ROUTES
-        $this->router->post($path, $callback);
+        $this->router->delete($path, $callback);
+    }
+
+    public function put($path, $callback)
+    {
+        $this->router->put($path, $callback);
     }
 
     public function show($view, $params = [])
