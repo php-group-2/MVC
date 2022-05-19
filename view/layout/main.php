@@ -22,9 +22,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
+                <div class="navbar-nav me-auto">
                     <a class="nav-link active" aria-current="page" href="/">Todo</a>
                     <a class="nav-link" href="/todo">Add</a>
+                </div>
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/register">Register</a>
+                    <a class="nav-link" href="/login">Login</a>
                 </div>
             </div>
         </div>

@@ -2,13 +2,10 @@
 
 namespace App\controllers;
 
-use App\core\Application;
 use App\core\Controller;
 use App\core\Request;
 use App\core\Response;
-use App\core\View;
 use App\models\Task;
-use App\models\User;
 
 class SiteController extends Controller
 {
@@ -28,7 +25,6 @@ class SiteController extends Controller
     public function put(Request $request, Response $response)
     {
         $data = $request->getBody();
-        // dd($data);
         $id = $data['id'];
         $updatedData = [
             "title" => $data['title'],
