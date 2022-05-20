@@ -22,7 +22,7 @@ class SiteController extends Controller
         $response->redirect('/');
     }
 
-    public function put(Request $request, Response $response)
+    public function update(Request $request, Response $response)
     {
         $data = $request->getBody();
         $id = $data['id'];
@@ -31,6 +31,7 @@ class SiteController extends Controller
             "description" => $data['desc'],
             "color" => $data['color'] ?? null,
             "deadline" => $data['dline'] ? $data['dline'] : null,
+            "user_id" => $_COOKIE['user_id'] ?? null,
         ];
 
         Task::do()->update($updatedData)->where('id', $id)->exec();
@@ -39,7 +40,7 @@ class SiteController extends Controller
 
     public function home()
     {
-        $result = Task::do()->all();
+        $result = Task::do()->findAll($_COOKIE['user_id'], 'user_id');
         return $this->render("home", ["tasks" => $result]);
     }
 
@@ -63,6 +64,7 @@ class SiteController extends Controller
                 "description" => $data['desc'],
                 "color" => $data['color'] ?? null,
                 "deadline" => $data['dline'] ? $data['dline'] : null,
+                "user_id" => $_COOKIE['user_id'] ?? null,
             ];
 
             $result = Task::do()->create($newData);

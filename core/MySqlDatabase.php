@@ -8,7 +8,7 @@ use PDO;
 
 class MySqlDatabase implements DatabaseInterface
 {
-    private PDO $db;
+    public PDO $db;
     private string $table;
     private string $query;
     private array $fields = [];
@@ -153,5 +153,72 @@ class MySqlDatabase implements DatabaseInterface
     {
         $statement = $this->prepare($this->query);
         return $statement->execute();
+    }
+
+    public function applyMigrations()
+    {
+        $this->createMigrationsTable();
+
+        $applied = $this->getAppliedMigrations();
+
+        $new = [];
+
+        $direcotires = scandir(__DIR__ . "/../migrations/");
+        $direcotires = array_diff($direcotires, ['.', '..']);
+
+        foreach ($direcotires as $dir) {
+            require_once __DIR__ . "/../migrations/$dir";
+
+            // Change name from mxxx_name_class to NameClass
+            $dir = str_replace(".php", "", $dir);
+            $dir = array_map(fn ($v) => ucwords($v), explode('_', $dir));
+            unset($dir[0]);
+            $className = implode("", $dir);
+
+            // Check if this migration is already applied
+            if (!in_array($className, $applied)) {
+                $this->log("$className migration applied");
+                $className::up();
+                $new[] = $className;
+            }
+        }
+
+        if (!empty($new)) {
+            $this->saveMigrations($new);
+        } else {
+            echo "All migrations already applied";
+        }
+    }
+
+    public function createMigrationsTable()
+    {
+        $this->db->exec("CREATE TABLE IF NOT EXISTS migrations (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            migration VARCHAR(255),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )  ENGINE=INNODB;");
+    }
+
+
+    public function getAppliedMigrations()
+    {
+        $statement = $this->db->prepare("SELECT migration FROM migrations");
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
+    public function saveMigrations(array $newMigrations)
+    {
+        $str = implode(',', array_map(fn ($m) => "('$m')", $newMigrations));
+        $statement = $this->db->prepare("INSERT INTO migrations (migration) VALUES 
+            $str -- ('CreateUserTable','CreateTasksTable')
+        ");
+        $statement->execute();
+    }
+
+    private function log($message)
+    {
+        echo "[" . date("Y-m-d H:i:s") . "] - " . $message . PHP_EOL;
     }
 }

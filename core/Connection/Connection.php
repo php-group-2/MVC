@@ -2,25 +2,24 @@
 
 namespace App\core\Connection;
 
+use App\core\Application;
 use PDO;
 
 class Connection implements ConnectionInterface
 {
-
   private static $instance = null;
-  private $host = "localhost";
-  private $name = "MVC";
-  private $user = "root";
-  private $pass = "";
-
   private PDO $conn;
 
   private function __construct()
   {
+    $host = 'localhost';
+    $name = $_ENV['DB_DATABASE'];
+    $user = $_ENV['DB_USER'];
+    $pass = $_ENV['DB_PASS'];
     $this->conn = new PDO(
-      "mysql:host={$this->host};dbname={$this->name}",
-      $this->user,
-      $this->pass,
+      "mysql:host={$host};dbname={$name}",
+      $user,
+      $pass,
       [
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
