@@ -38,17 +38,25 @@ class Validation
         $errors = [];
         foreach ($this->rules as $attr => $conditions) {
             $input = $this->data[$attr];
-            if (is_array($conditions)) {
-                foreach ($conditions as $condition) {
-                    if (is_string($condition) && method_exists($this, $condition)) {
-                        $result = call_user_func([$this, $condition], $input);
-                        
-                        if (!is_null($result)) {
-                            $errors[$attr][] = $result;
-                        }
+            $rules = is_string($conditions) ? explode("|", $conditions) : $conditions;
+
+            foreach ($rules as $rule) {
+                $limit = null;
+                if (str_contains($rule, ':')) {
+                    $arrayRule = explode(':', $rule);
+                    $rule = $arrayRule[0];
+                    $limit = $arrayRule[1];
+                }
+                if (method_exists($this, $rule)) {
+
+                    $result = call_user_func([$this, $rule], $input , $limit);
+
+                    if (!is_null($result)) {
+                        $errors[$attr][] = $result;
                     }
                 }
             }
+
         }
         return $errors;
     }
@@ -66,6 +74,22 @@ class Validation
         if (!filter_var($input, FILTER_VALIDATE_EMAIL))
             return 'It\'s not valid email';
 
+        return null;
+    }
+
+    public function min($input , $limit) : ?string
+    {
+        if(strlen($input) < $limit){
+            return 'min char is ' . $limit;
+        }
+        return null;
+    }
+
+    public function max($input , $limit) : ?string
+    {
+        if(strlen($input) > $limit){
+            return 'max char is ' . $limit;
+        }
         return null;
     }
 }

@@ -37,6 +37,7 @@ class AuthController extends Controller
                 // User::do()->insert()
                 $response->redirect('/');
             }
+            dd($errors);
         }
         return $this->render('register', ['errors' => $errors]);
     }
@@ -51,7 +52,7 @@ class AuthController extends Controller
     {
         return [
             'email' => ['required', 'email', 'unique'],
-            'password' => ['required', ['min', 4]],
+            'password' => ['required', 'min:4'],
             'name' => "alphabet|min:5",
             'phone' => "numeric|min:5|max:11|phone",
         ];
