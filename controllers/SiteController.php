@@ -36,7 +36,7 @@ class SiteController extends Controller
             "description" => $data['desc'],
             "color" => $data['color'] ?? null,
             "deadline" => $data['dline'] ? $data['dline'] : null,
-            "user_id" => $_COOKIE['user_id'] ?? null,
+            "user_id" => CoreAuth::getUserId() ?? null,
         ];
 
         Task::do()->update($updatedData)->where('id', $id)->exec();
@@ -45,7 +45,7 @@ class SiteController extends Controller
 
     public function home()
     {
-        $result = Task::do()->findAll($_COOKIE['user_id'], 'user_id');
+        $result = Task::do()->findAll(CoreAuth::getUserId(), 'user_id');
         return $this->render("home", ["tasks" => $result]);
     }
 
