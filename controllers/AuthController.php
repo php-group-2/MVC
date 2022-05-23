@@ -2,15 +2,21 @@
 
 namespace App\controllers;
 
+use App\core\Auth as CoreAuth;
 use App\core\Controller;
 use App\core\Request;
 use App\core\Response;
+use App\core\Session;
 use App\core\Validation;
+use App\middlewares\Auth;
 use App\models\Task;
 use App\models\User;
 
 class AuthController extends Controller
 {
+
+    public $middleware = null;
+
     public function __construct()
     {
         $this->setLayout('main2');
@@ -39,6 +45,12 @@ class AuthController extends Controller
             dd($errors);
         }
         return $this->render('register', ['errors' => $errors]);
+    }
+
+    public function logout(Request $request, Response $response)
+    {
+        CoreAuth::logout();
+        $response->redirect('/');
     }
 
     public function getRegisterData($data)
@@ -80,7 +92,7 @@ class AuthController extends Controller
                     $errors['password'][] = 'Email or Password is incorect';
                     return $this->render('login', ['errors' => $errors]);
                 }
-                setcookie('user_id', $user->id, 0, '/');
+                Session::set('user_id', $user->id);
                 $response->redirect('/');
             }
         }

@@ -2,7 +2,7 @@
 
 function dd($data)
 {
-    echo "<pre>";
+    echo '<pre style="background-color: black; color: lightgreen">';
     var_dump($data);
     echo "</pre>";
     exit;

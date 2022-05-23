@@ -16,6 +16,9 @@ class Application
     public function __construct($root_path)
     {
         include_once __DIR__ . "/helpers/helper.php";
+        include_once __DIR__ . "/helpers/response.php";
+
+        Session::start();
 
         self::$ROOT = $root_path;
         self::$app = $this;
@@ -29,21 +32,30 @@ class Application
     public function get($path, $callback)
     {
         $this->router->get($path, $callback);
+        return $this;
     }
 
     public function post($path, $callback)
     {
         $this->router->post($path, $callback);
+        return $this;
     }
 
     public function delete($path, $callback)
     {
         $this->router->delete($path, $callback);
+        return $this;
+    }
+
+    public function middleware($middlwareName)
+    {
+        $this->router->middleware($middlwareName);
     }
 
     public function put($path, $callback)
     {
         $this->router->put($path, $callback);
+        return $this;
     }
 
     public function show($view, $params = [])

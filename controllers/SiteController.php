@@ -2,16 +2,21 @@
 
 namespace App\controllers;
 
+use App\core\Auth as CoreAuth;
 use App\core\Controller;
 use App\core\Request;
 use App\core\Response;
+use App\middlewares\Auth;
 use App\models\Task;
 
 class SiteController extends Controller
 {
+    public $middleware = null;
+
     public function __construct()
     {
         $this->setLayout('main');
+        $this->middleware = new Auth;
     }
 
     public function delete(Request $request, Response $response)
@@ -64,7 +69,7 @@ class SiteController extends Controller
                 "description" => $data['desc'],
                 "color" => $data['color'] ?? null,
                 "deadline" => $data['dline'] ? $data['dline'] : null,
-                "user_id" => $_COOKIE['user_id'] ?? null,
+                "user_id" => CoreAuth::getUserId() ?? null,
             ];
 
             $result = Task::do()->create($newData);

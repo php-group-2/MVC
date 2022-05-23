@@ -1,3 +1,8 @@
+<?php
+
+use App\core\Auth;
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -26,10 +31,12 @@
                     <a class="nav-link active" aria-current="page" href="/">Todo</a>
                     <a class="nav-link" href="/todo">Add</a>
                 </div>
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="/register">Register</a>
-                    <a class="nav-link" href="/login">Login</a>
-                </div>
+                <?php if (Auth::isLogin()) : ?>
+                    <a class="nav-link" href="/logout">logout</a>
+                <?php else : ?>
+                    <a class="nav-link active" aria-current="page" href="/login">login</a>
+                    <a class="nav-link" href="/register">register</a>
+                <?php endif; ?>
             </div>
         </div>
     </nav>

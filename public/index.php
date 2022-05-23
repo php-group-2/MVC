@@ -18,6 +18,7 @@ $app->get("/register", [AuthController::class, "register"]);
 $app->post("/register", [AuthController::class, "register"]);
 $app->get("/login", [AuthController::class, "login"]);
 $app->post("/login", [AuthController::class, "login"]);
+$app->get("/logout", [AuthController::class, "logout"]);
 
 $app->get("/todo", [SiteController::class, "add"]);
 $app->post("/todo", [SiteController::class, "add"]);

@@ -34,8 +34,9 @@ abstract class Model
     {
         return $this->query->select()->where($col, $value)->fetch();
     }
-    public function findAll(string $value, string $col = 'id') // return the record
+    public function findAll(?string $value = null, string $col = 'id') // return the record
     {
+        if (!isset($value)) return [];
         return $this->query->select()->where($col, $value)->fetchAll();
     }
     public function create(array $data) // make a new recorde 

@@ -8,6 +8,7 @@ class Router
     public View $view;
     public Request $request;
     public Response $response;
+    public $middleware = null;
 
     public function __construct(Request $request, Response $response)
     {
@@ -36,6 +37,11 @@ class Router
         $this->routes['put'][$path] = $callback;
     }
 
+    public function middleware($middlewareName)
+    {
+        $this->middleware = $middlewareName;
+    }
+
     public function resolve()
     {
         $path = $this->request->getPath();
@@ -54,8 +60,18 @@ class Router
         }
 
         if (is_array($callback)) {
+
             $callback[0] = new $callback[0];
             Application::$app->controller = $callback[0];
+            $controller = $callback[0];
+            // AuthController
+
+            if (!$controller->middleware == null) {
+                if (!$controller->middleware->check()) {
+                    $this->response->setStatusCode(404);
+                    return Application::$app->view->renderView("_404");
+                }
+            }
         }
 
         // function or method
