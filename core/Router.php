@@ -68,7 +68,7 @@ class Router
 
             if (!$controller->middleware == null) {
                 if (!$controller->middleware->check()) {
-                    $this->response->setStatusCode(404);
+                    $this->response->setStatusCode(403);
                     return Application::$app->view->renderView("_403");
                 }
             }
